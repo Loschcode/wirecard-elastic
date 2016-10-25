@@ -15,25 +15,17 @@ describe Wirecard::Elastic::Transaction do
       it { expect(valid_response).to be_a(Wirecard::Elastic::Utils::ResponseFormat) }
       it { expect(valid_response.transaction_state).to eql(:success) }
 
+      # upop specific
+      it { expect(valid_response.transaction_type).to eql(:debit) }
+
     end
 
     context "unvalid datas" do
 
+      # raise errors systematically
       it { expect{unvalid_response}.to raise_error(Wirecard::Elastic::Error) }
       it { expect{unvalid_response.raw}.to raise_error(Wirecard::Elastic::Error) }
 
-    end
-
-  end
-
-  context "#status" do
-
-    context "valid datas" do
-      it { expect(valid_response.transaction_state).to eql(:success) }
-    end
-
-    context "unvalid datas" do
-      it { expect{unvalid_response.transaction_state}.to raise_error(Wirecard::Elastic::Error) }
     end
 
   end
