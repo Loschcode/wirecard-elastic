@@ -3,10 +3,12 @@ module Wirecard
     class Configuration
 
       attr_accessor :creditcard
-      @creditcard = {}
-
       attr_accessor :upop
-      @upop = {}
+
+      def initialize
+        @upop = {}
+        @creditcard = {}
+      end
 
     end
   end
