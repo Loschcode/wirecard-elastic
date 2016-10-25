@@ -23,7 +23,11 @@ module Wirecard
 
       def configuration
         @configuration ||= Configuration.new
-        yield @configuration if block_given?
+        if block_given?
+          yield @configuration
+        else
+          @configuration
+        end
       end
 
       def reset

@@ -10,9 +10,8 @@ describe Wirecard::Elastic::Transaction do
 
     it 'should return a response hash' do
 
-
         response = Wirecard::Elastic::Transaction.new(TEST_MERCHANT, TEST_TRANSACTION, TEST_PAYMENT_METHOD).response.raw
-        assert_instance_of Hash, response
+        expect(response).to be_a(Hash)
         expect(response[:payment][:"transaction-state"]).to eql("success")
 
     end
@@ -20,7 +19,7 @@ describe Wirecard::Elastic::Transaction do
     it 'should return a formatted response' do
 
         response = Wirecard::Elastic::Transaction.new(TEST_MERCHANT, TEST_TRANSACTION, TEST_PAYMENT_METHOD).response
-        assert_instance_of Wirecard::Elastic::Utils::ResponseFormat, response
+        expect(response).to be_a(Wirecard::Elastic::Utils::ResponseFormat)
         expect(response.transaction_state).to eql(:success)
 
     end

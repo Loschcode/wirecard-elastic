@@ -9,19 +9,17 @@ module Wirecard
 
         CONTENT_TYPE = 'text/xml'.freeze
 
-        attr_reader :engine_url, :username, :password, :query, :method, :body, :payment_method
+        attr_reader :engine_url, :username, :password, :method, :body, :query, :payment_method
 
         # uri_query gets the URI of request to the API
         # method specify if it has to be a :get or :post
         # body understood by the API is basically XML
         def initialize(uri_query, payment_method, method=:get, body='')
           @payment_method = payment_method
-          @engine_url = access[:engine_url]
-          @username = access[:username]
-          @password = access[:password]
-          @query = "#{engine_url}#{uri_query}.json"
           @method = method
           @body = body
+          setup_access!
+          @query = "#{engine_url}#{uri_query}.json"
         end
 
         # get the http raw response to the API
@@ -68,7 +66,7 @@ module Wirecard
             elsif method == :post
               Net::HTTP::Post.new(request_uri.request_uri)
             else
-              raise Wirecard::ElasticApi::Error, "Request method not recognized"
+              raise Wirecard::Elastic::Error, "Request method not recognized"
             end
           end
         end
@@ -83,10 +81,18 @@ module Wirecard
 
         private
 
+        def setup_access!
+          @engine_url = access[:engine_url]
+          @username = access[:username]
+          @password = access[:password]
+        end
+
         def access
           config = Wirecard::Elastic.configuration.instance_variable_get("@#{payment_method}")
           if config.nil?
             raise Wirecard::Elastic::Error, "Can't recover #{payment_method} details. Please check your configuration."
+          else
+            config
           end
         end
 

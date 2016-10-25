@@ -6,7 +6,7 @@ describe Wirecard::Elastic do
     valid_transaction = "af3864e1-0b2b-11e6-9e82-00163e64ea9f"
     valid_payment_method = :upop
 
-    wirecard = Wirecard::ElasticApi.transaction(valid_merchant, valid_transaction, valid_payment_method)
+    wirecard = Wirecard::Elastic.transaction(valid_merchant, valid_transaction, valid_payment_method)
     expect(wirecard.response.transaction_state).to eql(:success)
 
   end
