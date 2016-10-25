@@ -26,6 +26,10 @@ module Wirecard
         yield @configuration if block_given?
       end
 
+      def reset
+        @configuration = Configuration.new
+      end
+
       alias :config :configuration
 
     end
