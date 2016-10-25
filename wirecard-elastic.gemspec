@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "Wirecard support for Elastic Api"
   spec.description   = "Wirecard support for Elastic Api"
-  spec.homepage      = "https://github.com/Loschcode/wirecard-elastic-api"
+  spec.homepage      = "https://github.com/Loschcode/wirecard-elastic"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"
