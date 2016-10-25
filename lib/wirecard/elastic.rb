@@ -22,7 +22,8 @@ module Wirecard
       end
 
       def configuration
-        yield Configuration
+        @configuration ||= Configuration.new
+        yield @configuration if block_given?
       end
 
       alias :config :configuration

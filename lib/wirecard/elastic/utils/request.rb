@@ -84,9 +84,10 @@ module Wirecard
         private
 
         def access
-          Configuration.class_variable_get("@@#{payment_method}")
-        rescue NameError
-          raise Wirecard::Elastic::Error, "Can't recover #{payment_method} details. Please check your configuration."
+          config = Wirecard::Elastic.configuration.instance_variable_get("@#{payment_method}")
+          if config.nil?
+            raise Wirecard::Elastic::Error, "Can't recover #{payment_method} details. Please check your configuration."
+          end
         end
 
       end

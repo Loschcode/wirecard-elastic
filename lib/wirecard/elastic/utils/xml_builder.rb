@@ -7,6 +7,9 @@ module Wirecard
     module Utils
       class XmlBuilder
 
+        TEMPLATE_FORMAT = "UTF-8".freeze
+        TEMPLATE_PATH = "../../templates/".freeze
+
         attr_reader :template_name, :request
 
         # template_name is contained in /templates/
@@ -18,7 +21,7 @@ module Wirecard
 
         # actually convert the file into a full XML with processed variables
         def to_xml
-          xml_template = File.open template_path, "r:UTF-8", &:read
+          xml_template = File.open(template_path, "r:#{TEMPLATE_FORMAT}", &:read)
           xml_template.gsub(/{{\w+}}/, request_params)
         end
 
@@ -31,7 +34,7 @@ module Wirecard
         end
 
         def template_path
-          File.expand_path "../../templates/#{template_file}", __FILE__
+          File.expand_path "#{TEMPLATE_PATH}#{template_file}", __FILE__
         end
 
         def template_file

@@ -15,6 +15,7 @@ module Wirecard
         # we use UNDERSCORE_MAP for that
         SYMBOLS_MAP = [:request_status, :transaction_type, :transaction_state, :payment_method]
         UNDERSCORE_MAP = [:request_status, :transaction_state, :payment_method]
+        
         attr_reader :origin, :raw
 
         # .to_call will convert the `method_name` into
