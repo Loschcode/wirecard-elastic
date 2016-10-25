@@ -1,8 +1,12 @@
 require "wirecard/elastic/version"
+require "wirecard/elastic/error"
 require "wirecard/elastic/configuration"
 require "wirecard/elastic/base"
 require "wirecard/elastic/transaction"
 require "wirecard/elastic/refund"
+require "wirecard/elastic/utils/request"
+require "wirecard/elastic/utils/response_format"
+require "wirecard/elastic/utils/xml_builder"
 
 module Wirecard
   module Elastic
@@ -10,7 +14,6 @@ module Wirecard
     class << self
 
       def transaction(merchant_id, transaction_id, payment_method)
-        binding.pry
         Transaction.new(merchant_id, transaction_id, payment_method)
       end
 

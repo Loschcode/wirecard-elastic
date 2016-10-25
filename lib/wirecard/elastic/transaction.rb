@@ -3,7 +3,7 @@ module Wirecard
   module Elastic
     class Transaction < Base
 
-      VALID_STATUS_LIST = [:success, :failed]
+      VALID_STATUS_LIST = [:success, :failed].freeze
 
       attr_reader :merchant_id, :transaction_id, :payment_method
 
@@ -15,7 +15,7 @@ module Wirecard
 
       def response
         @response ||= begin
-          response = Utils::Request.new(query, payment_method).response
+          response = Wirecard::Elastic::Utils::Request.new(query, payment_method).response
           if response.nil?
             raise Wirecard::Elastic::Error, "The transaction was not found"
           else

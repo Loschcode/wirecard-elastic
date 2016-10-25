@@ -3,14 +3,11 @@ require 'net/http'
 # send the request to Wirecard API via authentication
 # get the response from it
 module Wirecard
-  class ElasticApi
+  module Elastic
     module Utils
       class Request
 
-        binding.pry
-        CONFIG = Wirecard::ElasticApi::BASE_CONFIG[:elastic_api]
-
-        CONTENT_TYPE = 'text/xml'
+        CONTENT_TYPE = 'text/xml'.freeze
 
         attr_reader :engine_url, :username, :password, :query, :method, :body, :payment_method
 
@@ -18,9 +15,10 @@ module Wirecard
         # method specify if it has to be a :get or :post
         # body understood by the API is basically XML
         def initialize(uri_query, payment_method, method=:get, body='')
-          @engine_url = CONFIG[payment_method][:engine_url]
-          @username = CONFIG[payment_method][:username]
-          @password = CONFIG[payment_method][:password]
+          @payment_method = payment_method
+          @engine_url = access[:engine_url]
+          @username = access[:username]
+          @password = access[:password]
           @query = "#{engine_url}#{uri_query}.json"
           @method = method
           @body = body
@@ -81,6 +79,14 @@ module Wirecard
 
         def https_request?
           request_uri.scheme == 'https'
+        end
+
+        private
+
+        def access
+          Configuration.class_variable_get("@@#{payment_method}")
+        rescue NameError
+          raise Wirecard::Elastic::Error, "Can't recover #{payment_method} details. Please check your configuration."
         end
 
       end

@@ -5,8 +5,8 @@ module Wirecard
   module Elastic
     class Refund < Base
 
-      REQUEST_IP_ADDRESS = "127.0.0.1"
-      REFUND_MAP = {:purchase => :'refund-purchase', :debit => :'refund-debit'}
+      REQUEST_IP_ADDRESS = "127.0.0.1".freeze
+      REFUND_MAP = {:purchase => :'refund-purchase', :debit => :'refund-debit'}.freeze
 
       attr_reader :merchant_id, :parent_transaction_id, :request_id, :payment_method
 
@@ -21,7 +21,7 @@ module Wirecard
       # return the response format
       def response
         @response ||= begin
-          response = Utils::Request.new(query, payment_method, :post, body).response
+          response = Wirecard::Elastic::Utils::Request.new(query, payment_method, :post, body).response
           if response.nil?
             raise Wirecard::Elastic::Error, "The refund was not processed"
           else

@@ -4,7 +4,7 @@ require 'rexml/text'
 # it's used throughout the whole ElasticApi library when a `response`
 # has to be returned
 module Wirecard
-  class ElasticApi
+  module Elastic
     module Utils
       class ResponseFormat
 

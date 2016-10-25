@@ -3,7 +3,7 @@ require 'rexml/text'
 # build a XML from a template and some variables
 # output a string
 module Wirecard
-  class ElasticApi
+  module Elastic
     module Utils
       class XmlBuilder
 
