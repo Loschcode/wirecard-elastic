@@ -1,4 +1,5 @@
-require "wirecard/elastic/request/body/xml_builder"
+require "wirecard/elastic/request/body/builder/xml"
+require "wirecard/elastic/request/body/builder"
 require "wirecard/elastic/request/base"
 require "wirecard/elastic/request/refund" # should be dynamically loaded ?
 require "wirecard/elastic/request/transaction" # should be dynamically loaded ? -> method missing
