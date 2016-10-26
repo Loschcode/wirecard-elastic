@@ -43,8 +43,8 @@ describe Wirecard::Elastic do
     context "when valid transaction" do
 
       subject(:transaction) { Wirecard::Elastic.transaction(MERCHANT_UPOP, TRANSACTION_UPOP, PAYMENT_METHOD_UPOP) }
-      it { expect(transaction).to be_a(Wirecard::Elastic::Transaction) }
-      it { expect(transaction.response).to be_a(Wirecard::Elastic::Utils::ResponseFormat) }
+      it { expect(transaction).to be_a(Wirecard::Elastic::Request::Transaction) }
+      it { expect(transaction.response).to be_a(Wirecard::Elastic::Response::Builder) }
       it { expect(transaction.response.transaction_state).to eql(:success) }
 
     end
@@ -64,8 +64,8 @@ describe Wirecard::Elastic do
     context "when valid parent transaction" do
 
       subject(:transaction) { Wirecard::Elastic.refund(MERCHANT_UPOP, TRANSACTION_UPOP, PAYMENT_METHOD_UPOP) }
-      it { expect(transaction).to be_a(Wirecard::Elastic::Refund) }
-      it { expect(transaction.response).to be_a(Wirecard::Elastic::Utils::ResponseFormat) }
+      it { expect(transaction).to be_a(Wirecard::Elastic::Request::Refund) }
+      it { expect(transaction.response).to be_a(Wirecard::Elastic::Response::Builder) }
       it { expect(transaction.response.transaction_state).to eql(:success) }
 
     end

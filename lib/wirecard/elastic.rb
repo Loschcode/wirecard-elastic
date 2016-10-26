@@ -1,12 +1,13 @@
-require "wirecard/elastic/version"
-require "wirecard/elastic/error"
+require "wirecard/elastic/request/body/xml_builder"
+require "wirecard/elastic/request/base"
+require "wirecard/elastic/request/refund" # should be dynamically loaded ?
+require "wirecard/elastic/request/transaction" # should be dynamically loaded ? -> method missing
+require "wirecard/elastic/response/builder"
 require "wirecard/elastic/configuration"
-require "wirecard/elastic/base"
-require "wirecard/elastic/transaction"
-require "wirecard/elastic/refund"
-require "wirecard/elastic/utils/request"
-require "wirecard/elastic/utils/response_format"
-require "wirecard/elastic/utils/xml_builder"
+require "wirecard/elastic/error"
+require "wirecard/elastic/request"
+require "wirecard/elastic/response"
+require "wirecard/elastic/version"
 
 module Wirecard
   module Elastic
@@ -14,11 +15,11 @@ module Wirecard
     class << self
 
       def transaction(merchant_id, transaction_id, payment_method)
-        Transaction.new(merchant_id, transaction_id, payment_method)
+        Request::Transaction.new(merchant_id, transaction_id, payment_method)
       end
 
       def refund(merchant_id, parent_transaction_id, payment_method)
-        Refund.new(merchant_id, parent_transaction_id, payment_method)
+        Request::Refund.new(merchant_id, parent_transaction_id, payment_method)
       end
 
       def configuration
