@@ -1,7 +1,7 @@
 describe Wirecard::Elastic::Transaction do
 
   subject(:valid_response) { Wirecard::Elastic::Transaction.new(MERCHANT_UPOP, TRANSACTION_UPOP, PAYMENT_METHOD_UPOP).response }
-  subject(:unvalid_response) { Wirecard::Elastic::Transaction.new(MERCHANT_UPOP, "wrong", PAYMENT_METHOD_UPOP).response }
+  subject(:invalid_transaction_response) { Wirecard::Elastic::Transaction.new(MERCHANT_UPOP, "wrong", PAYMENT_METHOD_UPOP).response }
 
   context "#response" do
 
@@ -23,8 +23,8 @@ describe Wirecard::Elastic::Transaction do
     context "unvalid datas" do
 
       # raise errors systematically
-      it { expect{unvalid_response}.to raise_error(Wirecard::Elastic::Error) }
-      it { expect{unvalid_response.raw}.to raise_error(Wirecard::Elastic::Error) }
+      it { expect{invalid_transaction_response}.to raise_error(Wirecard::Elastic::Error) }
+      it { expect{invalid_transaction_response.raw}.to raise_error(Wirecard::Elastic::Error) }
 
     end
 
