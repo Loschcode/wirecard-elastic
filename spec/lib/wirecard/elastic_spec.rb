@@ -9,6 +9,8 @@ describe Wirecard::Elastic do
         before(:each) { Wirecard::Elastic.config { |config| config.upop[:engine_url] = 'wrong' } }
         after(:each) { Wirecard::Elastic.config { |config| config.upop[:engine_url] = UPOP_ENGINE_URL } }
 
+        binding.pry
+        
         subject(:response) { Wirecard::Elastic.transaction(MERCHANT_UPOP, TRANSACTION_UPOP, PAYMENT_METHOD_UPOP).response }
 
         it { expect{response}.to raise_error(Wirecard::Elastic::ConfigError) }
