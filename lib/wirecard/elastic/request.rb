@@ -27,14 +27,14 @@ module Wirecard
         @method         = method
         @body           = body
         @query_uri      = query_uri
-        raise Wirecard::Elastic::ConfigError, "Invalid engine URL" unless valid_query?
+        raise Wirecard::Elastic::ConfigError, "Invalid engine URL. Please check your configuration." unless valid_query?
       end
 
       # process the actual call and return the instance
       # raise an error if the server didn't answer anything
       def dispatch!
         @dispatch ||= begin
-          if callback.nil?
+          if feedback.nil?
             raise Wirecard::Elastic::Error, "The request was not successful"
           else
             self
@@ -50,8 +50,8 @@ module Wirecard
       # get the http raw response from the API
       # it's supposed to be a simple string
       # we might parse as JSON later on
-      def callback
-        @callback ||= Net::HTTP.start(query_url.host, query_url.port,
+      def feedback
+        @feedback ||= Net::HTTP.start(query_url.host, query_url.port,
         :use_ssl     => https_request?,
         :verify_mode => OpenSSL::SSL::VERIFY_NONE) { |connection| send(connection) }
       end
@@ -100,7 +100,7 @@ module Wirecard
         @gateway ||= begin
           @gateway = Wirecard::Elastic.configuration.instance_variable_get("@#{payment_method}")
           if @gateway.nil?
-            raise Wirecard::Elastic::Error, "Can't recover #{payment_method} details. Please check your configuration."
+            raise Wirecard::Elastic::ConfigError, "Can't recover #{payment_method} details. Please check your configuration."
           else
             @gateway
           end
