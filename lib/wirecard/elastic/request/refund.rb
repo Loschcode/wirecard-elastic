@@ -17,17 +17,17 @@ module Wirecard
           @payment_method        = payment_method
         end
 
-        # process the query response
-        # return the response format
+        # calling request
         def request
           @request ||= Request.new(query_uri: query, payment_method: payment_method, method: :post, body: body).dispatch!
         end
 
+        # processed response
         def response
           @response ||= Response.new(request: request, action: :refund).dispatch!
         end
 
-        # query URI to the API
+        # address we want to access on the API
         def query
           @query ||= PAYMENT_QUERY_MAP[parent_transaction.response.transaction_type]
         end
@@ -37,7 +37,8 @@ module Wirecard
           @body ||= Body::Builder.new(self, :refund).to_xml
         end
 
-        # original transaction of the refund, requested remotely to elastic API
+        # original transaction of the refund
+        # requested remotely to elastic API
         def parent_transaction
           @parent_transaction ||= Transaction.new(merchant_id, parent_transaction_id, payment_method)
         end

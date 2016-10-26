@@ -1,3 +1,5 @@
+# setup the parameters that will be transmitted to the body builder
+# which will convert the template into real values
 module Wirecard
   module Elastic
     class Request
@@ -5,7 +7,10 @@ module Wirecard
         module Params
           class Refund
 
+            # the request IP address is for now a static local address
             REQUEST_IP_ADDRESS = "127.0.0.1".freeze
+
+            # each transaction its symetric refund term
             REFUND_MAP         = {:purchase => :'refund-purchase', :debit => :'refund-debit'}.freeze
 
             attr_reader :origin
@@ -14,6 +19,7 @@ module Wirecard
               @origin = origin
             end
 
+            # output the hash
             def deliver!
               local.merge(remote)
             end
@@ -30,7 +36,7 @@ module Wirecard
               }
             end
 
-            # get some body params from the remote elastic API itslef rather than our database (safer)
+            # get some body params from the remote elastic API itself rather than our database (safer)
             def remote
               {
                 :currency         => origin.parent_transaction.response.requested_amount_currency,

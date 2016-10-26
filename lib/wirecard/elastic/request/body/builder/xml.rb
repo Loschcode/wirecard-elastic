@@ -1,7 +1,7 @@
 require 'rexml/text'
 
 # build a XML from a template and some variables
-# output a string
+# output a string to be transmitted to the API
 module Wirecard
   module Elastic
     class Request
@@ -29,9 +29,11 @@ module Wirecard
 
             private
 
+            # convert the current {{VARIABLES}}
+            # into their real values
             def request_params
-              request.each_with_object({}) do |(k,v), h|
-                h["{{#{k.upcase}}}"] = REXML::Text.new(v.to_s)
+              request.each_with_object({}) do |(key,value), hash|
+                hash["{{#{key.upcase}}}"] = REXML::Text.new(value.to_s)
               end
             end
 

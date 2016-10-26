@@ -3,8 +3,6 @@ module Wirecard
   module Elastic
     class Request
       class Transaction < Base
-        
-        VALID_STATUS_LIST = [:success, :failed].freeze
 
         attr_reader :merchant_id, :transaction_id, :payment_method
 
@@ -14,14 +12,17 @@ module Wirecard
           @payment_method = payment_method
         end
 
+        # calling request
         def request
           @request ||= Request.new(query_uri: query, payment_method: payment_method).dispatch!
         end
 
+        # processed response
         def response
           @response ||= Response.new(request: request, action: :transaction).dispatch!
         end
 
+        # address we want to access on the API
         def query
           @query ||= "merchants/#{merchant_id}/payments/#{transaction_id}"
         end

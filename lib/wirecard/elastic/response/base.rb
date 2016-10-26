@@ -9,11 +9,13 @@ module Wirecard
       class Base
 
         # will force symbol conversion for those specific methods calls
-        # *method.status will return a symbol
-        # *method.anything will return the raw value
-        # NOTE : `transaction_type` isn't here because we don't want to turn `refund-purchase` into `refund_purchase`
-        # we use UNDERSCORE_MAP for that
+        # *method.transaction_state will return a symbol
+        # *method.anything will return the raw value from the API
         SYMBOLS_MAP    = [:request_status, :transaction_type, :transaction_state, :payment_method]
+
+        # `transaction_type` isn't here because we don't want
+        # to turn `refund-purchase` into `refund_purchase`
+        # we use UNDERSCORE_MAP for that
         UNDERSCORE_MAP = [:request_status, :transaction_state, :payment_method]
 
         attr_reader :origin, :raw
@@ -38,6 +40,10 @@ module Wirecard
           end
         end
 
+        # general mapping for automatic method recovery
+        # when you basically ask for MyResponse.request_id it will go through the hash
+        # following the map and return the value at the end of the loop
+        # each response class can extend easily the map for its own specific use
         def map
           {
             :request_id                => [:"request-id"],
@@ -53,8 +59,7 @@ module Wirecard
 
         private
 
-        # cool method to try to go through a hash, could be WAY improved
-        # but who got time for that ?
+        # navigate through the hash without crashing
         def cycle(*elements)
           position = raw[:payment] || raw[:payment]&.[](:"merchant-account-id")
           elements.each do |element|
@@ -64,11 +69,12 @@ module Wirecard
           position
         end
 
-        # convert the data to a symbol
+        # convert the data into a symbol
         def symbolize_data(data)
           data.to_s.to_sym
         end
 
+        # convert - into _
         def underscore_data(data)
           data.to_s.gsub("-", "_")
         end
