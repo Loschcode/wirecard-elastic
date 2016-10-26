@@ -3,18 +3,11 @@ module Wirecard
     class Response
       class Refund < Base
 
-        def map
-          {
-            :request_id => [:"request-id"],
-            :request_status => [:statuses, :status, 0, :severity],
-            :requested_amount => [:"requested-amount", :value],
-            :requested_amount_currency => [:"requested-amount", :currency],
-            :transaction_id => [:"requested-id"],
-            :transaction_type => [:"transaction-type"],
-            :transaction_state => [:"transaction-state"],
-            :payment_method => [:"payment-methods", :"payment-method", 0, :name]
-          }
-        end
+          # lots of refund specific mapping can be added below
+          # you just have to do `super.merge(whatever)`
+          def map
+            super.merge({})
+          end
 
       end
     end
