@@ -14,10 +14,14 @@ module Wirecard
       end
 
       def response
+        dispatch_request!(query, payment_method)
+      end
+
+      def dispatch_request!(*args)
         @response ||= begin
-          response = Wirecard::Elastic::Utils::Request.new(query, payment_method).response
+          response = Wirecard::Elastic::Utils::Request.new(*args).response
           if response.nil?
-            raise Wirecard::Elastic::Error, "The transaction was not found"
+            raise Wirecard::Elastic::Error, "The request was not successful"
           else
             Utils::ResponseFormat.new(self, response)
           end

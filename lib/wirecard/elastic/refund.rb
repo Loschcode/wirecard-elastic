@@ -7,41 +7,32 @@ module Wirecard
 
       REQUEST_IP_ADDRESS = "127.0.0.1".freeze
       REFUND_MAP = {:purchase => :'refund-purchase', :debit => :'refund-debit'}.freeze
+      PAYMENT_QUERY_MAP = {:purchase => "payments", :debit => "paymentmethods"}
 
-      attr_reader :merchant_id, :parent_transaction_id, :request_id, :payment_method
+      attr_reader :merchant_id, :parent_transaction_id, :request_id, :payment_method, :builder
 
       def initialize(merchant_id, parent_transaction_id, payment_method)
         @merchant_id = merchant_id
         @parent_transaction_id = parent_transaction_id
         @request_id = SecureRandom.uuid
         @payment_method = payment_method
+        @builder = builder
       end
 
       # process the query response
       # return the response format
       def response
-        @response ||= begin
-          response = Wirecard::Elastic::Utils::Request.new(query, payment_method, :post, body).response
-          if response.nil?
-            raise Wirecard::Elastic::Error, "The refund was not processed"
-          else
-            Utils::ResponseFormat.new(self, response)
-          end
-        end
+        dispatch_request!(query, payment_method, :post, body)
       end
 
       # query URI to the API
       def query
-        if parent_transaction.response.transaction_type == :purchase
-          @query ||= "payments"
-        elsif parent_transaction.response.transaction_type == :debit
-          @query ||= "paymentmethods"
-        end
+        @query ||= PAYMENT_QUERY_MAP[parent_transaction.response.transaction_type]
       end
 
       # XML body we will send to the elastic API
       def body
-        @body ||= Elastic::Utils::XmlBuilder.new(:refund, body_params).to_xml
+        @body ||= Utils::XmlBuilder.new(:refund, body_params).to_xml
       end
 
       private
@@ -73,7 +64,7 @@ module Wirecard
 
       # original transaction of the refund, requested remotely to elastic API
       def parent_transaction
-        @parent_transaction ||= Wirecard::Elastic::Transaction.new(merchant_id, parent_transaction_id, payment_method)
+        @parent_transaction ||= Transaction.new(merchant_id, parent_transaction_id, payment_method)
       end
 
     end
