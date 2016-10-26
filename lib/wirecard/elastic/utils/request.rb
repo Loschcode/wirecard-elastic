@@ -20,6 +20,7 @@ module Wirecard
           @body = body
           setup_access!
           @query = "#{engine_url}#{uri_query}.json"
+          raise Wirecard::Elastic::ConfigError, "Invalid engine URL" unless valid_query_url?
         end
 
         # get the http raw response to the API
@@ -71,6 +72,10 @@ module Wirecard
           end
         end
 
+        def valid_query_url?
+          (query =~ /\A#{URI::regexp(['http', 'https'])}\z/) != nil
+        end
+
         def request_uri
           @request_uri ||= URI(query)
         end
@@ -78,8 +83,6 @@ module Wirecard
         def https_request?
           request_uri.scheme == 'https'
         end
-
-        private
 
         def setup_access!
           @engine_url = access[:engine_url]
