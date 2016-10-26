@@ -4,7 +4,7 @@ module Wirecard
 
       attr_reader :request, :action
 
-      def initialize(request, action)
+      def initialize(request:, action:)
         @request = request
         @action = action
       end
@@ -18,13 +18,13 @@ module Wirecard
       end
 
       def response
-        @response ||= JSON.parse(request.raw_response.body).deep_symbolize_keys if valid_body?
+        @response ||= JSON.parse(request.callback.body).deep_symbolize_keys if valid_body?
       end
 
       private
 
       def valid_body?
-        request.raw_response.body && valid_json?(request.raw_response.body)
+        request.callback.body && valid_json?(request.callback.body)
       end
 
       def valid_json?(json)

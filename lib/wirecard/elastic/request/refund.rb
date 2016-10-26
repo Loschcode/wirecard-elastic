@@ -11,20 +11,20 @@ module Wirecard
         attr_reader :merchant_id, :parent_transaction_id, :request_id, :payment_method
 
         def initialize(merchant_id, parent_transaction_id, payment_method)
-          @merchant_id = merchant_id
+          @merchant_id           = merchant_id
           @parent_transaction_id = parent_transaction_id
-          @request_id = SecureRandom.uuid
-          @payment_method = payment_method
+          @request_id            = SecureRandom.uuid
+          @payment_method        = payment_method
         end
 
         # process the query response
         # return the response format
         def request
-          @request ||= Request.new(query, payment_method, :post, body).dispatch!
+          @request ||= Request.new(query_uri: query, payment_method: payment_method, method: :post, body: body).dispatch!
         end
 
         def response
-          @response ||= Response.new(request, :refund).dispatch!
+          @response ||= Response.new(request: request, action: :refund).dispatch!
         end
 
         # query URI to the API

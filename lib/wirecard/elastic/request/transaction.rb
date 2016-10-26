@@ -15,11 +15,11 @@ module Wirecard
         end
 
         def request
-          @request ||= Request.new(query, payment_method).dispatch!
+          @request ||= Request.new(query_uri: query, payment_method: payment_method).dispatch!
         end
 
         def response
-          @response ||= Response.new(request, :transaction).dispatch!
+          @response ||= Response.new(request: request, action: :transaction).dispatch!
         end
 
         def query

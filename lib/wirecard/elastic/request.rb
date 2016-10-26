@@ -7,23 +7,25 @@ module Wirecard
     class Request
 
       CONTENT_TYPE = 'text/xml'.freeze
+      ALLOWED_METHODS = [:get, :post]
+      URL_PATTERN = /\A#{URI::regexp(['http', 'https'])}\z/
 
-      attr_reader :method, :body, :uri_query, :payment_method
+      attr_reader :method, :body, :query_uri, :payment_method
 
-      # uri_query gets the URI of request to the API
+      # query_uri gets the URI of request to the API
       # method specify if it has to be a :get or :post
       # body understood by the API is basically XML
-      def initialize(uri_query, payment_method, method=:get, body='')
+      def initialize(query_uri:, payment_method:, method: :get, body: '')
         @payment_method = payment_method
         @method = method
         @body = body
-        @uri_query = uri_query
-        raise Wirecard::Elastic::ConfigError, "Invalid engine URL" unless valid_query_url?
+        @query_uri = query_uri
+        raise Wirecard::Elastic::ConfigError, "Invalid engine URL" unless valid_query?
       end
 
       def dispatch!
         @dispatch ||= begin
-          if raw_response.nil?
+          if callback.nil?
             raise Wirecard::Elastic::Error, "The request was not successful"
           else
             self
@@ -32,13 +34,13 @@ module Wirecard
       end
 
       def query
-        @query ||= "#{access[:engine_url]}#{uri_query}.json"
+        @query ||= "#{access[:engine_url]}#{query_uri}.json"
       end
 
       # get the http raw response to the API
       # it's supposed to be a string, check out #response to get the hashed version
-      def raw_response
-        @raw_response ||= Net::HTTP.start(request_uri.host, request_uri.port,
+      def callback
+        @callback ||= Net::HTTP.start(query_url.host, query_url.port,
         :use_ssl     => https_request?,
         :verify_mode => OpenSSL::SSL::VERIFY_NONE) { |connection| send(connection) }
       end
@@ -56,26 +58,24 @@ module Wirecard
       # prepare the request and manage the differents methods used
       def request
         @request ||= begin
-          if method == :get
-            Net::HTTP::Get.new(request_uri.request_uri)
-          elsif method == :post
-            Net::HTTP::Post.new(request_uri.request_uri)
+          if ALLOWED_METHODS.include?(method)
+            Net::HTTP.const_get(method.capitalize).new(query_url.request_uri)
           else
             raise Wirecard::Elastic::Error, "Request method not recognized"
           end
         end
       end
 
-      def valid_query_url?
-        (query =~ /\A#{URI::regexp(['http', 'https'])}\z/) != nil
+      def valid_query?
+        (query =~ URL_PATTERN) != nil
       end
 
-      def request_uri
-        @request_uri ||= URI(query)
+      def query_url
+        @query_url ||= URI(query)
       end
 
       def https_request?
-        request_uri.scheme == 'https'
+        query_url.scheme == 'https'
       end
 
       def access
