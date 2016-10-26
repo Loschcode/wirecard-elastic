@@ -7,7 +7,7 @@ module Wirecard
           attr_reader :origin, :template
 
           def initialize(origin, template)
-            @origin = origin
+            @origin   = origin
             @template = template
           end
 

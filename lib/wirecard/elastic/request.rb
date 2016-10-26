@@ -17,9 +17,9 @@ module Wirecard
       # body understood by the API is basically XML
       def initialize(query_uri:, payment_method:, method: :get, body: '')
         @payment_method = payment_method
-        @method = method
-        @body = body
-        @query_uri = query_uri
+        @method         = method
+        @body           = body
+        @query_uri      = query_uri
         raise Wirecard::Elastic::ConfigError, "Invalid engine URL" unless valid_query?
       end
 
@@ -50,7 +50,7 @@ module Wirecard
       # connect and authenticate the client to the API server
       def send(connection)
         request.basic_auth access[:username], access[:password] # authentification here
-        request.body = body # body (XML for instance)
+        request.body         = body # body (XML for instance)
         request.content_type = CONTENT_TYPE # XML
         connection.request request # give a response
       end

@@ -13,14 +13,14 @@ module Wirecard
         # *method.anything will return the raw value
         # NOTE : `transaction_type` isn't here because we don't want to turn `refund-purchase` into `refund_purchase`
         # we use UNDERSCORE_MAP for that
-        SYMBOLS_MAP = [:request_status, :transaction_type, :transaction_state, :payment_method]
+        SYMBOLS_MAP    = [:request_status, :transaction_type, :transaction_state, :payment_method]
         UNDERSCORE_MAP = [:request_status, :transaction_state, :payment_method]
 
         attr_reader :origin, :raw
 
         def initialize(origin, raw)
           @origin = origin
-          @raw = raw
+          @raw    = raw
         end
 
         def method_missing(method_symbol, *arguments, &block)
@@ -40,14 +40,14 @@ module Wirecard
 
         def map
           {
-            :request_id => [:"request-id"],
-            :request_status => [:statuses, :status, 0, :severity],
-            :requested_amount => [:"requested-amount", :value],
+            :request_id                => [:"request-id"],
+            :request_status            => [:statuses, :status, 0, :severity],
+            :requested_amount          => [:"requested-amount", :value],
             :requested_amount_currency => [:"requested-amount", :currency],
-            :transaction_id => [:"requested-id"],
-            :transaction_type => [:"transaction-type"],
-            :transaction_state => [:"transaction-state"],
-            :payment_method => [:"payment-methods", :"payment-method", 0, :name]
+            :transaction_id            => [:"requested-id"],
+            :transaction_type          => [:"transaction-type"],
+            :transaction_state         => [:"transaction-state"],
+            :payment_method            => [:"payment-methods", :"payment-method", 0, :name]
           }
         end
 

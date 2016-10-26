@@ -10,7 +10,7 @@ module Wirecard
           class Xml
 
             TEMPLATE_FORMAT = "UTF-8".freeze
-            TEMPLATE_PATH = "../../templates/".freeze
+            TEMPLATE_PATH   = "../../templates/".freeze
 
             attr_reader :template_name, :request
 
@@ -18,7 +18,7 @@ module Wirecard
             # the request matches the variables to convert (in hash) e.g. :refund
             def initialize(template_name, request)
               @template_name = template_name
-              @request = request
+              @request       = request
             end
 
             # actually convert the file into a full XML with processed variables

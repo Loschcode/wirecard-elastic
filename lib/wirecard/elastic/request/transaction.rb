@@ -9,7 +9,7 @@ module Wirecard
         attr_reader :merchant_id, :transaction_id, :payment_method
 
         def initialize(merchant_id, transaction_id, payment_method)
-          @merchant_id = merchant_id
+          @merchant_id    = merchant_id
           @transaction_id = transaction_id
           @payment_method = payment_method
         end

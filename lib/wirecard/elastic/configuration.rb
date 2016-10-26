@@ -6,8 +6,8 @@ module Wirecard
       attr_accessor :upop
 
       def initialize
-        @upop = {}
-        @creditcard = {}
+        @upop       = { }
+        @creditcard = { }
       end
 
     end
