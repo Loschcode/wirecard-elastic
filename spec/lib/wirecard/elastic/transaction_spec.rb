@@ -5,7 +5,7 @@ describe Wirecard::Elastic::Transaction do
 
   context "#response" do
 
-    context "valid datas" do
+    context "when we use valid datas" do
 
       # basic check
       it { expect(valid_response.raw).to be_a(Hash) }
@@ -20,7 +20,7 @@ describe Wirecard::Elastic::Transaction do
 
     end
 
-    context "unvalid datas" do
+    context "when we use unvalid datas" do
 
       # raise errors systematically
       it { expect{invalid_transaction_response}.to raise_error(Wirecard::Elastic::Error) }
