@@ -1,5 +1,9 @@
+# classes auto loader
 Dir[File.expand_path "lib/**/*.rb"].each { |file| require_relative(file) }
 
+# this is the entry point of the gem, here goes the configuration system
+# also the different methods that should be publicly called
+# such as Wirecard::Elastic.transaction(*) or Wirecard::Elastic.refund(*)
 module Wirecard
   module Elastic
 

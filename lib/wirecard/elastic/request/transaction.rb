@@ -3,7 +3,7 @@ module Wirecard
   module Elastic
     class Request
       class Transaction < Base
-
+        
         VALID_STATUS_LIST = [:success, :failed].freeze
 
         attr_reader :merchant_id, :transaction_id, :payment_method

@@ -1,3 +1,5 @@
+# configuration of the gem and
+# default values set here
 module Wirecard
   module Elastic
     class Configuration
