@@ -73,7 +73,7 @@ describe Wirecard::Elastic do
     context "when invalid parent transaction" do
 
       subject(:transaction) { Wirecard::Elastic.refund(MERCHANT_UPOP, 'wrong', PAYMENT_METHOD_UPOP) }
-      it { expect{response}.to raise_error(Wirecard::Elastic::Error) }
+      it { expect{transaction.response}.to raise_error(Wirecard::Elastic::Error) }
 
     end
 
