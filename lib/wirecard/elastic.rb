@@ -16,12 +16,8 @@ module Wirecard
 
     class << self
 
-      def transaction(merchant_id, transaction_id, payment_method)
-        Request::Transaction.new(merchant_id, transaction_id, payment_method)
-      end
-
-      def refund(merchant_id, parent_transaction_id, payment_method)
-        Request::Refund.new(merchant_id, parent_transaction_id, payment_method)
+      def method_missing(method, *args)
+        Request.const_get(method.capitalize).new(*args)
       end
 
       def configuration
