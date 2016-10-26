@@ -9,8 +9,6 @@ describe Wirecard::Elastic do
         before(:each) { Wirecard::Elastic.config { |config| config.upop[:engine_url] = 'wrong' } }
         after(:each) { Wirecard::Elastic.config { |config| config.upop[:engine_url] = UPOP_ENGINE_URL } }
 
-        binding.pry
-        
         subject(:response) { Wirecard::Elastic.transaction(MERCHANT_UPOP, TRANSACTION_UPOP, PAYMENT_METHOD_UPOP).response }
 
         it { expect{response}.to raise_error(Wirecard::Elastic::ConfigError) }
@@ -46,7 +44,7 @@ describe Wirecard::Elastic do
 
       subject(:transaction) { Wirecard::Elastic.transaction(MERCHANT_UPOP, TRANSACTION_UPOP, PAYMENT_METHOD_UPOP) }
       it { expect(transaction).to be_a(Wirecard::Elastic::Request::Transaction) }
-      it { expect(transaction.response).to be_a(Wirecard::Elastic::Response::Builder) }
+      it { expect(transaction.response).to be_a(Wirecard::Elastic::Response::Transaction) }
       it { expect(transaction.response.transaction_state).to eql(:success) }
 
     end
@@ -67,7 +65,7 @@ describe Wirecard::Elastic do
 
       subject(:transaction) { Wirecard::Elastic.refund(MERCHANT_UPOP, TRANSACTION_UPOP, PAYMENT_METHOD_UPOP) }
       it { expect(transaction).to be_a(Wirecard::Elastic::Request::Refund) }
-      it { expect(transaction.response).to be_a(Wirecard::Elastic::Response::Builder) }
+      it { expect(transaction.response).to be_a(Wirecard::Elastic::Response::Refund) }
       it { expect(transaction.response.transaction_state).to eql(:success) }
 
     end
