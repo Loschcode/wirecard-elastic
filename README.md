@@ -47,6 +47,7 @@ end
 ```
 
 ## Usage
+
 Recover a transaction or/and refund from the API.
 
 ```ruby
