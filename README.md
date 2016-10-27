@@ -107,6 +107,10 @@ end
 
 I created this library for my company. It lacks several functionalities but it's way enough for us ; everything is easily extendable so don't hesitate to add your own needed methods to it.
 
+You will notice there a lot of sub-functionalities which isn't quoted in the instructions. For instance, there's a XML body builder with template system which can be easily extended to other file formats if needed.
+
+It was originally created for [Wirecard](https://www.wirecard.com/) but I see no restriction to use for any other service using this elastic structure.
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/wirecard-elastic/fork )
