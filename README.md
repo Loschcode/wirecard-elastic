@@ -54,7 +54,7 @@ Recover a transaction or/and refund from the API.
 # Any of the following instructions work for both transaction and refund request
 # the payment method can be either :upop or :creditcard for now
 response = Wirecard::Elastic.transaction("MERCHANT ID", "TRANSACTION ID", "PAYMENT METHOD").response
-response = Wirecard::Elastic.refund("MERCHANT ID", "TRANSACTION ID", "PAYMENT METHOD").response
+response = Wirecard::Elastic.refund("MERCHANT ID", "PARENT TRANSACTION ID", "PAYMENT METHOD").response
 ```
 
 You can get any result from the API. The results will be processed and converted to symbol / underscore depending on the response current mapping
