@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    wirecard-elastic (0.2.2)
+    wirecard-elastic (0.2.3)
       activesupport
 
 GEM
