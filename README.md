@@ -109,7 +109,7 @@ I created this library for my company. It lacks several functionalities but it's
 
 You will notice there a lot of sub-functionalities which isn't quoted in the instructions. For instance, there's a XML body builder with template system which can be easily extended to other file formats if needed.
 
-It was originally created for [Wirecard](https://www.wirecard.com/) but I see no restriction to use for any other service using this elastic structure.
+It was originally created for [Wirecard](https://www.wirecard.com/) but I see no restriction to use it for any other service with the elastic structure.
 
 ## Contributing
 
