@@ -3,7 +3,7 @@
 
 ![alt text](https://hostbillapp.com/images/wirecard.png "Wirecard GmbH")
 
-This library  integrates the elastic API for wirecard payment service for Ruby.
+This library  integrates the elastic API for Wirecard Payment Service in Ruby.
 
 ## Installation
 
@@ -21,9 +21,86 @@ Or install it yourself as:
 
     $ gem install wirecard-elastic
 
-## Usage
+## Configuration
 
-TODO: Write usage instructions here
+Add the following lines into your `config/initializer/` folder
+
+```ruby
+# use this to configure anything
+# on the wirecard elastic api gem
+Wirecard::Elastic.config do |config|
+
+  # the engine URL must be a full URL to the elastic engine you use
+  # you can add different credentials for each type of payment (Credit Card, China Union Pay, ...)
+  config.creditcard = {
+    :username   => "USERNAME FOR CREDIT CARD",
+    :password   => "PASSWORD FOR CREDIT CARD",
+    :engine_url => "http://api.engine-url.com/"
+  }
+  config.upop = {
+    :username   => "USERNAME FOR UNION PAY",
+    :password   => "PASSWORD FOR UNION PAY",
+    :engine_url => "http://api.engine-url.com/"
+  }
+
+end
+```
+
+## Usage
+Recover a transaction or/and refund from the API.
+
+```ruby
+# Any of the following instructions work for both transaction and refund request
+# the payment method can be either :upop or :creditcard for now
+response = Wirecard::Elastic.transaction("MERCHANT ID", "TRANSACTION ID", "PAYMENT METHOD").response
+response = Wirecard::Elastic.refund("MERCHANT ID", "TRANSACTION ID", "PAYMENT METHOD").response
+```
+
+You can get any result from the API. The results will be processed and converted to symbol / underscore depending on the response current mapping
+
+```ruby
+# different response datas from the API
+response.transaction_state
+response.transaction_type
+response.request_status
+response.requested_amount
+# ... and so forth
+```
+
+You can catch the done request itself without processed response like so
+
+```ruby
+# get request
+request = Wirecard::Elastic.transaction("MERCHANT ID", "TRANSACTION ID", "PAYMENT METHOD").request
+# check the exact query final URL
+request.query
+# see the raw result of the request
+request.feedback
+```
+
+You can also check if the transaction / refund was successful via this small shortcut. It will raise an error if not, you can then use whatever functionality you could normally use
+
+```ruby
+safe_transaction = Wirecard::Elastic.transaction("MERCHANT ID", "TRANSACTION ID", "PAYMENT METHOD").safe
+safe_transaction.request
+safe_transaction.response
+```
+
+Concrete use in your code could look like this
+
+```ruby
+def check
+  puts "Transaction current state : #{response.transaction_state}"
+end
+
+# errors are basically raised and
+# must be catch by yourself
+def response
+  @response ||= Wirecard::Elastic.refund(order_payment.merchant_id, order_payment.transaction_id, order_payment.payment_method).response
+rescue Wirecard::Elastic::Error => exception
+  raise Error, "A problem occurred : #{exception}"
+end
+```
 
 ## Development
 
@@ -39,7 +116,7 @@ I created this library for my company. It lacks several functionalities but it's
 
 ## Author
 
-![alt text](http/gravatar.com/userimage/57606027/93dc897e863331faa6a85e6072bfd5a7.png?size=200 "Laurent Schaffner")
+[Laurent Schaffner](http://www.laurentschaffner.com)
 
 ## License
 
