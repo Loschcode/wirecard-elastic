@@ -68,6 +68,8 @@ response.requested_amount
 # ... and so forth
 ```
 
+Check [Elastic Payment Documentation](http://docs.elastic-payments.com/) for more details about the requests / responses
+
 You can catch the done request itself without processed response like so
 
 ```ruby
