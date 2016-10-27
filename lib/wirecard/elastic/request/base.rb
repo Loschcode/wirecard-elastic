@@ -9,8 +9,12 @@ module Wirecard
         # and raise an error if not ; this is a useful shortcut
         # when manipulating the datas at a upper level
         def safe
-          raise Wirecard::Elastic::Error, "The status of the transaction is not correct (#{response.request_status})" unless valid_status?
-          raise Wirecard::Elastic::Error, "The transaction could not be verified. API access refused." if negative_response?
+          unless valid_status?
+            raise Wirecard::Elastic::Error, "The status of the transaction is not correct (#{response.request_status})"
+          end
+          if negative_response?
+            raise Wirecard::Elastic::Error, "The transaction could not be verified. API access refused."
+          end
           self
         end
 
