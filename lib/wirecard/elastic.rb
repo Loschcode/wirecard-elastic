@@ -1,5 +1,18 @@
-# classes auto loader
-Dir[File.expand_path "lib/**/*.rb"].each { |file| require_relative(file) }
+# we load the classes
+require 'wirecard/elastic/request/body/builder/xml'
+require 'wirecard/elastic/request/body/params/refund'
+require 'wirecard/elastic/request/body/builder'
+require 'wirecard/elastic/request/base'
+require 'wirecard/elastic/request/refund'
+require 'wirecard/elastic/request/transaction'
+require 'wirecard/elastic/response/base'
+require 'wirecard/elastic/response/refund'
+require 'wirecard/elastic/response/transaction'
+require 'wirecard/elastic/configuration'
+require 'wirecard/elastic/error'
+require 'wirecard/elastic/request'
+require 'wirecard/elastic/response'
+require 'wirecard/elastic/version'
 
 # this is the entry point of the gem, here goes the configuration system
 # also the different methods that should be publicly called
