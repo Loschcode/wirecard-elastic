@@ -3,7 +3,7 @@
 
 ![alt text](https://hostbillapp.com/images/wirecard.png "Wirecard GmbH")
 
-This library  integrates the elastic API for Wirecard Payment Service in Ruby.
+This library  integrates the Elastic API for Wirecard Payment Service in Ruby. This library could actually be extended to manage any Elastic API service provider.
 
 ## Installation
 
