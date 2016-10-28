@@ -4,8 +4,7 @@ module Wirecard
   module Elastic
     class Configuration
 
-      attr_accessor :creditcard
-      attr_accessor :upop
+      attr_accessor :creditcard, :upop
 
       def initialize
         @upop       = { }
