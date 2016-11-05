@@ -1,4 +1,4 @@
-# we load the classes
+ # we load the classes
 require 'wirecard/elastic/request/body/builder/xml'
 require 'wirecard/elastic/request/body/params/refund'
 require 'wirecard/elastic/request/body/builder'
@@ -46,7 +46,7 @@ module Wirecard
         end
       end
 
-      alias :config :configuration
+      alias_method :config, :configuration
 
       # simply reset the configuration
       # NOTE : avoid to use this if you're
