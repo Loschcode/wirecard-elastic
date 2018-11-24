@@ -1,7 +1,6 @@
 
 # Wirecard Elastic
-
-![Wirecard GmbH](https://fr.wikipedia.org/wiki/Fichier:Wirecard_Logo.svg "Wirecard GmbH")
+![Wirecard GmbH](https://laurent.tech/assets/images/github/wirecard-gmbh.png "Wirecard GmbH")
 
 This library  integrates the Elastic API for Wirecard Payment Service in Ruby. This library could actually be extended to manage any Elastic API service provider.
 
