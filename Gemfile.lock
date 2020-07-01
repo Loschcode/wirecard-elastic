@@ -24,7 +24,7 @@ GEM
       slop (~> 3.4)
     pry-rails (0.3.4)
       pry (>= 0.9.10)
-    rake (10.4.2)
+    rake (13.0.1)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -49,7 +49,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.12)
   pry-rails
-  rake (~> 10.0)
+  rake (~> 13.0)
   rspec
   wirecard-elastic!
 
